@@ -1,0 +1,32 @@
+---
+# Source: namespace-cleaner/templates/deployment.yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: namespace-cleaner
+  labels:
+    app: namespace-cleaner
+    chart: namespace-cleaner-0.1.0
+    heritage: Tiller
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: namespace-cleaner
+    spec:
+      containers:
+        - name: namespace-cleaner
+          image: "marcpar/namespace-cleaner:latest"
+          env:
+            - name: DURATION
+              value: 30s
+            - name: EXEMPTION
+              value: "rev-master"
+            - name: HELM
+              value: "true"  
+            - name: TAG
+              value: "rev"
+          imagePullPolicy: Always
+          resources:
+            {}

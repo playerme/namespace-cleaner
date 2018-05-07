@@ -1,0 +1,4 @@
+telepresence.log
+helm-delete-cleanup.go
+helm-client-test.go.test
+.realize.yaml
