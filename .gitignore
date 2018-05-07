@@ -1,4 +1,4 @@
 telepresence.log
 helm-delete-cleanup.go
 helm-client-test.go.test
-namespace-cleaner
+namespace-cleaner/
