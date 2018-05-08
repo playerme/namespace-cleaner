@@ -8,17 +8,15 @@ import (
 	"time"
 
 	"k8s.io/api/core/v1"
+
+	"os"
+	"strings"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
-	//"flag"
-	//"k8s.io/client-go/kubernetes"
-	//"k8s.io/client-go/tools/clientcmd"
-	//"path/filepath"
-	"os"
-	"strings"
 
 	"k8s.io/helm/pkg/helm"
 )
@@ -63,6 +61,7 @@ func authLocal() *rest.Config {
 	// 	fmt.Println("error config")
 	// 	panic(err.Error())
 	// }
+
 	return config
 }
 
@@ -81,7 +80,7 @@ func cleanupHelm(revnamespace string) {
 	release := Releases.GetReleases()
 	for _, r := range release {
 
-		fmt.Println("deleting namespace: " + r.GetName())
+		fmt.Println("purge release: " + r.GetName())
 		helmClient.DeleteRelease(r.GetName(), helm.DeletePurge(true))
 	}
 	if err != nil {
@@ -152,7 +151,6 @@ func main() {
 	//get environment variable duration
 
 	//list environment excemption comma separated
-
 	exemptList := strings.Split(exempts, ",")
 
 	if exempts == "" {
@@ -176,6 +174,7 @@ func main() {
 		//set time in minutes
 
 		namespaces := listNamespace(clientset)
+
 		for _, namespace := range namespaces.Items {
 
 			if strings.Contains(namespace.Name, tag) && namespace.Name != exempt {
@@ -187,6 +186,7 @@ func main() {
 					fmt.Println(now.Sub(namespace.CreationTimestamp.Time))
 				}
 			}
+
 		}
 
 		revnamespaces = difference(revnamespaces, exemptList)
@@ -194,9 +194,8 @@ func main() {
 		if helm == true {
 
 			cleanupHelms(revnamespaces)
-		} else {
-			deleteNamespace(clientset, revnamespaces)
 		}
+		deleteNamespace(clientset, revnamespaces)
 
 		fmt.Println(".....END")
 		time.Sleep(60 * time.Second)
@@ -232,4 +231,5 @@ func difference(toRemoval []string, toSave []string) []string {
 	}
 
 	return remove
+
 }

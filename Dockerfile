@@ -12,6 +12,6 @@ RUN  go get
 
 
 CMD go run main.go
-TAG marcpar/namespace-cleaner:latest
+# TAG marcpar/namespace-cleaner:latest
 
 # PUSH marcpar/namespace-cleaner:latest
