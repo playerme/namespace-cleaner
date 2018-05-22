@@ -9,9 +9,6 @@ WORKDIR /go/src/cleaner
 RUN  go get
 # ATTACH ["/bin/sh"]
 
-
-
 CMD go run main.go
 # TAG marcpar/namespace-cleaner:latest
-
 # PUSH marcpar/namespace-cleaner:latest
