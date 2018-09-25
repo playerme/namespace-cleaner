@@ -134,7 +134,10 @@ func getenv(key string, fallback bool) bool {
 func main() {
 
 	exempts := os.Getenv("EXEMPTION")
-	helm := strconv.ParseBool(getenv("HELM", "false"))
+	helm := getenv("HELM", false)
+	
+	fmt.Printf("helm is true '%t'", helm)
+	
 	duration, err := time.ParseDuration(os.Getenv("DURATION"))
 
 	if err != nil {
