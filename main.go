@@ -67,6 +67,7 @@ func authLocal() *rest.Config {
 
 func cleanupHelms(revnamespaces []string) {
 	for _, revnamespace := range revnamespaces {
+		fmt.Println(revnamespace)
 		cleanupHelm(revnamespace)
 	}
 }
